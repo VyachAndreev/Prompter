@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_container"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/decrease_speed_btn"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:text="-"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:id="@+id/speed_textview"
+            tools:text="123123"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/increase_speed_btn"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:text="+"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:id="@+id/lower_text_size_btn"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:text="-"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:id="@+id/text_size_textview"
+            tools:text="adfafd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/upper_text_size_btn"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:text="+"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+
+    <com.example.prompter.view.InverterLayout
+        android:id="@+id/inverter"
+        android:background="#757575"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" >
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/text_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="40sp"
+                android:scrollbars="vertical"
+                android:text="@string/very_long_text_for_testing"
+                tools:text="@string/very_long_text_for_testing"/>
+        </androidx.core.widget.NestedScrollView>
+    </com.example.prompter.view.InverterLayout>
+
+    <LinearLayout
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/play_btn"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:text="play"
+            />
+
+        <Button
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:id="@+id/pause_btn"
+            android:layout_width="0dp"
+            android:text="pause"
+            android:layout_height="100dp"
+            />
+
+        <Button
+            android:text="stop"
+            android:layout_weight="1"
+            android:id="@+id/stop_btn"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            />
+
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_weight="1.4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:text="horizontal"
+                android:id="@+id/horizontal_switcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:text="vertical"
+                android:id="@+id/vertical_switcher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
