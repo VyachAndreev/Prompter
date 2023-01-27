@@ -15,8 +15,8 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
-import androidx.core.widget.NestedScrollView
 import com.example.prompter.view.InverterLayout
+import com.example.prompter.view.MyScrollView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,7 +24,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
     private val scopeMain by lazy { CoroutineScope(Dispatchers.Main) }
     private val textSize: Float
         get() {
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     private var isRunning = false
     private var previousTime: Long? = null
 
-    private lateinit var scrollView: NestedScrollView
+    private lateinit var scrollView: MyScrollView
     private lateinit var playButton: Button
     private lateinit var pauseButton: Button
     private lateinit var stopButton: Button
@@ -92,6 +92,8 @@ class MainActivity : AppCompatActivity() {
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             })
         }
+
+        scrollView.setListener(this)
 
         playButton.setOnClickListener {
             startScrolling()
@@ -155,6 +157,10 @@ class MainActivity : AppCompatActivity() {
         val editor = preferences.edit()
         editor.putString(TEXT_KEY, textContainer.text.toString())
         editor.apply()
+    }
+
+    override fun notifyNothingChanged() {
+        stopScrolling()
     }
 
     private fun stopScrolling() {

@@ -63,7 +63,7 @@
         android:layout_weight="1"
         android:background="#757575">
 
-        <androidx.core.widget.NestedScrollView
+        <com.example.prompter.view.MyScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -77,7 +77,7 @@
                 android:layout_height="match_parent"
                 android:scrollbars="vertical"
                 android:textSize="40sp" />
-        </androidx.core.widget.NestedScrollView>
+        </com.example.prompter.view.MyScrollView>
     </com.example.prompter.view.InverterLayout>
 
     <LinearLayout
