@@ -17,7 +17,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
-            android:text="-" />
+            android:text="@string/minus" />
 
         <TextView
             android:id="@+id/speed_textview"
@@ -31,7 +31,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
-            android:text="+" />
+            android:text="@string/plus" />
 
         <Button
             android:id="@+id/lower_text_size_btn"
@@ -39,7 +39,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="5dp"
-            android:text="-" />
+            android:text="@string/minus" />
 
         <TextView
             android:id="@+id/text_size_textview"
@@ -53,7 +53,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
-            android:text="+" />
+            android:text="@string/plus" />
     </LinearLayout>
 
     <com.example.prompter.view.InverterLayout
@@ -69,6 +69,9 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:hint="@string/text_hint"
+                android:autofillHints=""
+                android:inputType="textMultiLine"
                 android:id="@+id/text_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -91,7 +94,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="0"
-            android:text="▶" />
+            android:text="@string/play" />
 
         <Button
             android:id="@+id/pause_btn"
@@ -99,14 +102,14 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="0"
-            android:text="⏸" />
+            android:text="@string/pause" />
 
         <Button
             android:id="@+id/stop_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="0"
-            android:text="⏹" />
+            android:text="@string/stop" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -119,13 +122,13 @@
                 android:id="@+id/horizontal_switcher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="horizontal" />
+                android:text="@string/horizontal" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/vertical_switcher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="vertical" />
+                android:text="@string/vertical" />
 
         </LinearLayout>
     </LinearLayout>

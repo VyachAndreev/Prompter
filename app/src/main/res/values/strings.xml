@@ -1,5 +1,18 @@
 <resources>
+    <!-- App name -->
     <string name="app_name">Prompter</string>
+
+    <!-- Main Activity -->
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="text_hint">Type your text here</string>
+    <string name="play">▶</string>
+    <string name="pause">⏸</string>
+    <string name="stop">⏹</string>
+    <string name="horizontal">horizontal</string>
+    <string name="vertical">vertical</string>
+
+    <!-- Test -->
     <string name="very_long_text_for_testing">Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing</string>
     <string name="very_long_text_for_testing_with_endlines">Very long text for testing Very long text for testing Very long text for\n testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text for testing Very long text \nfor testing Very long text for testing Very long text for testing Very long text f\nor testing</string>
 
