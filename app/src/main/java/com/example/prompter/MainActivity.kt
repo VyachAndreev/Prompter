@@ -1,5 +1,7 @@
 package com.example.prompter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Point
 import android.os.Bundle
 import android.os.SystemClock
@@ -27,6 +29,10 @@ class MainActivity : AppCompatActivity() {
     private val textSize: Float
         get() {
             return textContainer.textSize
+        }
+    private val preferences: SharedPreferences
+        get() {
+            return getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         }
 
     private var speed = 1.0
@@ -74,6 +80,9 @@ class MainActivity : AppCompatActivity() {
         textSizeText = findViewById(R.id.text_size_textview)
 
         textContainer.apply {
+            preferences.getString(TEXT_KEY, null)?.let { text ->
+                setText(text)
+            }
             setPadding(0, 0, 0, height)
             addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable) {
@@ -141,6 +150,13 @@ class MainActivity : AppCompatActivity() {
         updateTextSizeText()
     }
 
+    override fun onPause() {
+        super.onPause()
+        val editor = preferences.edit()
+        editor.putString(TEXT_KEY, textContainer.text.toString())
+        editor.apply()
+    }
+
     private fun stopScrolling() {
         isRunning = false
         previousTime = null
@@ -181,5 +197,7 @@ class MainActivity : AppCompatActivity() {
         private const val DELTA_TEXT_SIZE = 10.0f
         private const val MIN_TEXT_SIZE = 40.0f
         private const val MAX_TEXT_SIZE = 160.0f
+        private const val PREFS = "PREFS"
+        private const val TEXT_KEY = "TEXT_KEY"
     }
 }
