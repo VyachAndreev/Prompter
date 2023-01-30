@@ -2,9 +2,9 @@ package com.example.prompter
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Bundle
-import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -17,15 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import com.example.prompter.view.InverterLayout
 import com.example.prompter.view.MyScrollView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlin.math.max
 import kotlin.math.min
 
 
 class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
-    private val scopeMain by lazy { CoroutineScope(Dispatchers.Main) }
     private val textSize: Float
         get() {
             return textContainer.textSize
@@ -34,10 +30,15 @@ class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
         get() {
             return getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         }
+    private val defaultTimeForLine: Double by lazy {
+            if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                DEFAULT_TIME_FOR_SCROLLING_LINE
+            } else {
+                LANDSCAPE_TIME_FOR_SCROLLING_LINE
+            }
+        }
 
     private var speed = 1.0
-    private var isRunning = false
-    private var previousTime: Long? = null
 
     private lateinit var scrollView: MyScrollView
     private lateinit var playButton: Button
@@ -88,7 +89,15 @@ class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
                 override fun afterTextChanged(s: Editable) {
                     inverter.invalidate()
                 }
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
             })
         }
@@ -96,13 +105,13 @@ class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
         scrollView.setListener(this)
 
         playButton.setOnClickListener {
-            startScrolling()
+            scrollView.startScrolling()
         }
         pauseButton.setOnClickListener {
-            stopScrolling()
+            scrollView.stopScrolling()
         }
         stopButton.setOnClickListener {
-            stopScrolling()
+            scrollView.stopScrolling()
             scrollView.fullScroll(ScrollView.FOCUS_UP)
         }
 
@@ -124,32 +133,32 @@ class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
 
         decreaseSpeedButton.setOnClickListener {
             speed = max(MIN_SPEED, speed - DELTA_SPEED)
-            updateSpeedText()
+            updateSpeed()
         }
 
         increaseSpeedButton.setOnClickListener {
             speed = min(MAX_SPEED, speed + DELTA_SPEED)
-            updateSpeedText()
+            updateSpeed()
         }
 
-        updateSpeedText()
+        updateSpeed()
 
         lowerTextSizeButton.setOnClickListener {
             textContainer.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX,
                 max(MIN_TEXT_SIZE, textSize - DELTA_TEXT_SIZE)
             )
-            updateTextSizeText()
+            updateTextSize()
         }
         upperTextSizeButton.setOnClickListener {
             textContainer.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX,
                 min(MAX_TEXT_SIZE, textSize + DELTA_TEXT_SIZE)
             )
-            updateTextSizeText()
+            updateTextSize()
         }
 
-        updateTextSizeText()
+        updateTextSize()
     }
 
     override fun onPause() {
@@ -160,45 +169,29 @@ class MainActivity : AppCompatActivity(), MyScrollView.OnScrollChangedListener {
     }
 
     override fun notifyNothingChanged() {
-        stopScrolling()
+        scrollView.stopScrolling()
     }
 
-    private fun stopScrolling() {
-        isRunning = false
-        previousTime = null
-    }
-
-    private fun startScrolling() {
-        isRunning = true
-        scrollText()
-    }
-
-    private fun scrollText() {
-        scopeMain.launch {
-            val currentTime = SystemClock.uptimeMillis()
-            if (previousTime != null) {
-                val deltaTime = ((currentTime - previousTime!!) * 0.5 * speed).toInt()
-                scrollView.scrollBy(0, deltaTime)
-            }
-            if (isRunning) {
-                previousTime = currentTime
-                scrollText()
-            }
-        }
-    }
-
-    private fun updateSpeedText() {
+    private fun updateSpeed() {
+        updatePixelTime()
         speedText.text = speed.toString()
     }
 
-    private fun updateTextSizeText() {
+    private fun updateTextSize() {
+        updatePixelTime()
         textSizeText.text = textSize.toInt().toString()
         inverter.setInvertedHeight(textSize.toInt())
     }
 
+    private fun updatePixelTime() {
+        scrollView.timeForPixel = (defaultTimeForLine / (textSize * speed)).toLong()
+    }
+
     companion object {
+        private const val DEFAULT_TIME_FOR_SCROLLING_LINE = 1000.0
+        private const val LANDSCAPE_TIME_FOR_SCROLLING_LINE = 1800.0
         private const val DELTA_SPEED = 0.25
-        private const val MIN_SPEED = 0.0
+        private const val MIN_SPEED = 0.25
         private const val MAX_SPEED = 2.0
         private const val DELTA_TEXT_SIZE = 10.0f
         private const val MIN_TEXT_SIZE = 40.0f
